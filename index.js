@@ -12,10 +12,11 @@ const express = require('express');
 const app = express();
 const PORT = 5000;
 const cors = require("./cors");
+const decData = require("./decData");
 
 cors(app);
 
-const posts =  [
+const posts = [
     {
         id: 1234567,                                // int ID объявления
         publishDate: 1234567,                       // int timestamp даты публикации
@@ -24,12 +25,18 @@ const posts =  [
         ownerLogin: 'MyOwner 1',                      // string имя пользователя владельца объявления
         bulletinSubject: 'Заголовок объявления 1 ',    // string
         bulletinText: 'Текст объявления 1 ...Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos erroТекст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
             '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..r laboriosam maiores nostrum odit officia\n' +
             '    pariatur unde.',       // string
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
+    }, {
         id: 1234568,                                // int ID объявления
         publishDate: 1234568,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
@@ -42,20 +49,24 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
+    }, {
         id: 1234569,                                // int ID объявления
         publishDate: 1234569,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234569,                           // int ID владельца объявления
         ownerLogin: 'MyOwner 3 ',                      // string имя пользователя владельца объявления
         bulletinSubject: 'Заголовок объявления 3 ',    // string
-        bulletinText: 'Текст объявления  3.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+        bulletinText: 'Текст объявления  3.Lorem ipsum dolor sit amet, consectetur adipisicing elТекст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..it. Ad aliquid amet asperiores, dignissimos eligendi\n' +
             '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
             '    pariatur unde...',       // string
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
+    }, {
         id: 1234570,                                // int ID объявления
         publishDate: 1234570,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня 4',        // string дата публикации в человекочитаемом формате
@@ -68,21 +79,27 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234581,                                // int ID объявления
+    }, {
+        id: 1234571,                                // int ID объявления
         publishDate: 1234570,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234570,                           // int ID владельца объявления
         ownerLogin: 'MyOwner5',                      // string имя пользователя владельца объявления
         bulletinSubject: 'Заголовок объявления',    // string
-        bulletinText: 'Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+        bulletinText: 'Текст объявления .Lorem ipsum dolorТекст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde.. sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
             '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
             '    pariatur unde...',       // string
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234571,                                // int ID объявления
+    }, {
+        id: 1234572,                                // int ID объявления
         publishDate: 1234571,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234571,                           // int ID владельца объявления
@@ -94,21 +111,29 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234572,                                // int ID объявления
+    }, {
+        id: 1234573,                                // int ID объявления
         publishDate: 1234572,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234572,                           // int ID владельца объявления
         ownerLogin: 'MyOwner7',                      // string имя пользователя владельца объявления
         bulletinSubject: 'Заголовок объявления',    // string
-        bulletinText: 'Текст объявления ...Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+        bulletinText: 'Текст объявления ...Lorem ipТекст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..sum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
             '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
             '    pariatur unde.',       // string
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234573,                                // int ID объявления
+    }, {
+        id: 1234574,                                // int ID объявления
         publishDate: 1234573,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234573,                           // int ID владельца объявления
@@ -120,8 +145,8 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234574,                                // int ID объявления
+    }, {
+        id: 1234575,                                // int ID объявления
         publishDate: 1234574,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234574,                           // int ID владельца объявления
@@ -133,8 +158,8 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234575,                                // int ID объявления
+    }, {
+        id: 1234576,                                // int ID объявления
         publishDate: 1234575,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234575,                           // int ID владельца объявления
@@ -142,12 +167,20 @@ const posts =  [
         bulletinSubject: 'Заголовок объявления',    // string
         bulletinText: 'Текст объявления ..Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
             '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
-            '    pariatur unde..',       // string
+            '    pariatur undТекст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..e..',       // string
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234576,                                // int ID объявления
+    }, {
+        id: 1234577,                                // int ID объявления
         publishDate: 1234576,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234576,                           // int ID владельца объявления
@@ -159,8 +192,8 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234577,                                // int ID объявления
+    }, {
+        id: 1234578,                                // int ID объявления
         publishDate: 1234577,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234577,                           // int ID владельца объявления
@@ -172,8 +205,8 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234578,                                // int ID объявления
+    }, {
+        id: 1234579,                                // int ID объявления
         publishDate: 1234578,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234578,                           // int ID владельца объявления
@@ -185,8 +218,8 @@ const posts =  [
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234579,                                // int ID объявления
+    }, {
+        id: 1234580,                                // int ID объявления
         publishDate: 1234579,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234579,                           // int ID владельца объявления
@@ -194,12 +227,18 @@ const posts =  [
         bulletinSubject: 'Заголовок объявления',    // string
         bulletinText: 'Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
             '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
+            '    pariatur unde..Текст объявления .Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet asperiores, dignissimos eligendi\n' +
+            '    molestias nisi praesentium provident sint voluptate? Alias dignissimos error laboriosam maiores nostrum odit officia\n' +
             '    pariatur unde...',       // string
         bulletinImagees: [                          // string[] ссылки на прикрепленные к объявлению изображения
             'https://static.baza.farpost.ru/v/1510541224458_hugeBlock',
         ]
-    },        {
-        id: 1234580,                                // int ID объявления
+    }, {
+        id: 1234581,                                // int ID объявления
         publishDate: 1234580,                       // int timestamp даты публикации
         publishDateString: '08:46, сегодня',        // string дата публикации в человекочитаемом формате
         ownerId: 1234580,                           // int ID владельца объявления
@@ -216,21 +255,24 @@ const posts =  [
 ]
 
 
-
-function home (req,res) {
+function home(req, res) {
     res.send('get data at /cards, send data to /response')
 }
 
-function response (req,res) {
-    req.get([{id:'status'}])
+function response(req, res) {
+
+    req.patch(decData(req.data))
     console.log(req.data, 'serv-----')
+
+    res.send(console.log('Data received'))
 }
 
-async function cards (req,res) {
+async function cards(req, res) {
 
     let currentPage = req.query.page
     const n = 10
-    res.send(posts.filter((el,i)=> i >= (currentPage * n - n) && i <= (currentPage * n) - n + (n - 1) ) );
+    res.send(posts.filter((el, i) => (
+        i >= (currentPage * n - n) && i <= (currentPage * n) - n + (n - 1))));
 }
 
 app.get('/', home)
