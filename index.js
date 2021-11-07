@@ -1,13 +1,3 @@
-// const lodash = require('lodash')
-//
-// const a = {
-//     name: "One"
-// }
-//
-// const b = lodash.get(a, 'name', '---')
-//
-// console.log('Hello the ', b)
-
 const express = require('express');
 const app = express();
 const PORT = 5000;
